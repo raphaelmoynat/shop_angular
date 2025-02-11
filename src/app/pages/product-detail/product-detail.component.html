@@ -4,6 +4,8 @@
   <div *ngIf="product; else errorTemplate">
     <h3>{{ product.name }}</h3>
     <p><strong>Prix :</strong> {{ product.price }} €</p>
+    <button class="btn btn-warning" (click)="addToCart(product)">Add to cart</button>
+
 
     <button class="btn btn-primary" (click)="goToHost()">Retour</button>
 

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ProductService} from '../../services/product.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CommonModule} from '@angular/common';
+import {CartService} from '../../services/cart.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -13,7 +14,7 @@ export class ProductDetailComponent implements OnInit {
   productId: string = '';
   product: any = null;
 
-  constructor(private productService: ProductService, private route: ActivatedRoute, private router: Router) {}
+  constructor(private productService: ProductService, private route: ActivatedRoute, private router: Router, private cartService: CartService) {}
 
   async ngOnInit() {
     this.productId = this.route.snapshot.paramMap.get('id') || '';
@@ -27,6 +28,10 @@ export class ProductDetailComponent implements OnInit {
 
   goToHost() {
     this.router.navigate(['/']);
+  }
+
+  addToCart(product: any) {
+    this.cartService.addToCart(product);
   }
 
 
