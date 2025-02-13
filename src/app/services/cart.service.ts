@@ -6,27 +6,32 @@ import {BehaviorSubject} from 'rxjs';
   providedIn: 'root'
 })
 export class CartService {
-  private currentUser: User | null = null;
-
-  constructor() {}
+  constructor(private auth: Auth) {}
 
   addToCart(product: any) {
+    const userId = this.auth.currentUser?.uid;
+    if (!userId) return alert("connectez-vous pour ajouter au panier");
+
     let cart = this.getCart();
     cart.push(product);
-    sessionStorage.setItem('cart', JSON.stringify(cart));
+    sessionStorage.setItem(`cart_${userId}`, JSON.stringify(cart));
   }
 
 
   getCart(): any[] {
-    return JSON.parse(sessionStorage.getItem('cart') || '[]');
+    const userId = this.auth.currentUser?.uid;
+    return userId ? JSON.parse(sessionStorage.getItem(`cart_${userId}`) || '[]') : [];
   }
 
   removeFromCart(product: any) {
+    const userId = this.auth.currentUser?.uid;
     let cart = this.getCart().filter(item => item.name !== product.name);
-    sessionStorage.setItem('cart', JSON.stringify(cart));
+
+    sessionStorage.setItem(`cart_${userId}`, JSON.stringify(cart));
   }
 
   clearCart() {
-    sessionStorage.removeItem('cart');
+    const userId = this.auth.currentUser?.uid;
+    sessionStorage.removeItem(`cart_${userId}`);
   }
 }

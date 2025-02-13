@@ -1,6 +1,7 @@
 import {CartService} from '../../services/cart.service';
 import {CommonModule} from '@angular/common';
 import {Component} from '@angular/core';
+import {Auth} from '@angular/fire/auth';
 
 
 @Component({
@@ -12,12 +13,8 @@ import {Component} from '@angular/core';
 export class CartComponent {
   cartItems: any[] = [];
 
-  constructor(public cartService: CartService) {}
+  constructor(public cartService: CartService, public auth: Auth ) {}
 
-  ngOnInit() {
-    this.cartItems = this.cartService.getCart();
-
-  }
 
   removeFromCart(product: any) {
     this.cartService.removeFromCart(product);

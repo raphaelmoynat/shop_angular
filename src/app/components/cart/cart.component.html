@@ -1,15 +1,22 @@
+
 <h2>Votre Panier</h2>
 
-<ul *ngIf="cartItems.length > 0; else emptyCart">
-  <li *ngFor="let item of cartItems">
-    {{ item.name }} - {{ item.price }} €
-    <button (click)="removeFromCart(item)">Retirer</button>
-  </li>
-</ul>
-
-<ng-template #emptyCart>
-  <p>Votre panier est vide.</p>
-</ng-template>
+<ng-container *ngIf="auth.currentUser; else notLoggedIn">
+  <ul *ngIf="cartService.getCart().length > 0; else emptyCart">
+    <li *ngFor="let item of cartService.getCart()">
+      {{ item.name }} - {{ item.price }} €
+      <button (click)="removeFromCart(item)">Retirer</button>
+    </li>
+  </ul>
+</ng-container>
 
 <button (click)="clearCart()">Vider le panier</button>
 
+
+<ng-template #emptyCart>
+  <p>Votre panier est vide</p>
+</ng-template>
+
+<ng-template #notLoggedIn>
+  <p>Connectez vous pour voir votre panier</p>
+</ng-template>
